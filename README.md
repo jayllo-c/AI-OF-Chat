@@ -35,7 +35,7 @@ This project is a fullstack application that integrates a chatbot with a flirty 
 3. Install backend dependencies:
     ```sh
     cd ../server
-    pip install flask flask_cors python-dotenv
+    pip install flask flask_cors
     ```
 
 4. Set up environment variables:
@@ -50,7 +50,7 @@ This project is a fullstack application that integrates a chatbot with a flirty 
 1. Start the backend server:
     ```sh
     cd server
-    python [server.py](http://_vscodecontentref_/0)
+    python server.py
     ```
 
 2. Start the frontend development server:

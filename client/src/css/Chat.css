@@ -8,7 +8,6 @@
     --chat-scroll-color: #7a7676;
 }
 
-
 .bubble-container {
     width: 100%;
     position: static;
@@ -16,12 +15,17 @@
     clear: both;
 }
 
-
+.chat-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    height: 80vh;
+}
 
 .chat-bubble {
     position: relative;
-    width: 600px;
-    max-width: 80%;
+    max-width: 70%;
     border-radius: 10px;
     background-color: var(--chat-bubble-bg);
     color: var(--chat-bubble-color);
@@ -36,7 +40,6 @@
     white-space: pre-wrap;
 }
 
-
 .bubble-container .left_bubble {
     float: left;
     margin-left: 3px;
@@ -50,7 +53,6 @@
 .clear {
     clear: both;
 }
-
 
 .chat-bubble.right_bubble::before {
     content: '';
@@ -79,7 +81,7 @@
 }
 
 .start-chat {
-    max-height: 80vh;
+    height: 100%;
     overflow-y: auto;
 }
 
@@ -159,6 +161,9 @@ a.blantershow-chat svg path,
 }
 
 .header-chat {
+    display: flex;
+    justify-content: space-between; /* Align items to the sides */
+    align-items: center; /* Center items vertically */
     background: var(--chat-primary-bg);
     color: var(--chat-primary-color);
     padding: 20px;
@@ -170,6 +175,11 @@ a.blantershow-chat svg path,
     margin: 0;
 }
 
+.head-home {
+    display: flex;
+    align-items: center; /* Center items vertically */
+}
+
 .info-avatar {
     position: relative;
 }
@@ -179,59 +189,54 @@ a.blantershow-chat svg path,
     width: 50px;
     height: 50px;
     object-fit: contain;
-    float: left;
-    margin: 0 10px 0 0;
+    margin-right: 10px;
     background-color: #fff;
-
 }
 
-input#chat-input {
+.separator {
     border: none;
-    font-family: inherit;
-    width: 100%;
-    height: 20px;
-    outline: none;
-    resize: none;
-    padding: 20px;
-    font-size: 14px;
-    word-spacing: 5px;
-    letter-spacing: 2px;
+    height: 1px;
+    background-color: rgb(65, 65, 65);
+    margin: 0; /* Adjust margin as needed */
 }
 
-/* position: relative;
-width: 600px;
-max-width: 80%;
-border-radius: 10px;
-background-color: var(--chat-bubble-bg);
-color: var(--chat-bubble-color);
-padding: 15px;
-line-height: 2;
-word-spacing: 5px;
-letter-spacing: 2px;
-font-weight: 400; */
+.blanter-msg {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--primary-bg);
+}
 
-a#send-it {
+.blanter-msg input {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.blanter-msg a#send-it {
     width: 30px;
     font-weight: 700;
     padding: 10px 10px 0;
     background: var(--chat-bubble-bg);
     border-radius: 0px;
-
-
+    margin-left: auto; /* This pushes the button to the right */
 }
 
-a#send-it svg {
+.blanter-msg a#send-it svg {
     fill: var(--chat-primary-bg);
     height: 24px;
     width: 24px;
 }
 
-.start-chat .blanter-msg {
+.start-chat {
     display: flex;
     position: sticky;
     left: 0;
     bottom: 0;
     border-top: solid 1px var(--primary-bg);
+    padding: 10px
 }
 
 a.close-chat {
@@ -244,9 +249,6 @@ a.close-chat {
 }
 
 /* CSS Multiple assistant Chat */
-
-
-
 
 @keyframes ZpjSY {
     0% {
@@ -290,7 +292,6 @@ a.close-chat {
     }
 }
 
-
 @media screen and (max-width: 480px) {
     #assistant-chat {
         width: auto;
@@ -315,7 +316,6 @@ a.close-chat {
     transform: scale(1);
     opacity: 1;
 }
-
 
 .hFENyl {
     position: relative;
@@ -360,6 +360,7 @@ a.close-chat {
 
 .assistant-chat-body {
     padding: 20px;
+    width: 100%;
 }
 
 .eJJEeC {

@@ -7,7 +7,7 @@ function Message(props) {
     <div data-role={dataRoll} className="bubble-container">
       <div className={thisClass}>
         <div className="text_message">
-          {props.message.replace(/<\/?[^>]+(>|$)/g, "")}
+          {props.message ? props.message.replace(/<\/?[^>]+(>|$)/g, "") : ""}
         </div>
       </div>
       <div className="clear"></div>

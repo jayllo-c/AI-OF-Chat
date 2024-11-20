@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Message from "../components/Message";
 import Svg from "../components/Svg";
+import AiDropdown from "../components/AiDropdown";
 import '../css/Chat.css';
 
 const Chat = () => {
@@ -26,6 +27,7 @@ const Chat = () => {
         var prompt_input = document.getElementById("chat-input");
         var prompt = prompt_input.value;
         if (prompt.replaceAll(" ", "") === "") {
+          console.log("Empty prompt, ignoring...");
           return;
         }
         prompt_input.value = "";
@@ -34,7 +36,8 @@ const Chat = () => {
           // chatHistory: JSON.stringify(chatMessages),
           prompt: prompt,
         };
-    
+        
+        console.log(data)
         fetch("/ask_ai", {
           method: "POST",
           body: JSON.stringify(data), // Convert data to JSON
@@ -55,8 +58,10 @@ const Chat = () => {
                 message: resData.result,
               },
             ];
+            console.log("Messages: ", messages);
             setchatMessages(messages);
-            chat_scroll_up()
+            console.log("messages set")
+            chat_scroll_up();
           })
           .catch((err) => console.log(err));
     }
@@ -64,7 +69,7 @@ const Chat = () => {
     return (
         <div>
             <Navbar />
-            <div>
+            <div className="chat-container">
                 <div className="header-chat">
                     <div className="head-home">
                         <div className="info-avatar">
@@ -76,17 +81,21 @@ const Chat = () => {
                             <small>Online</small>
                         </p>
                     </div>
+                    <AiDropdown />
                 </div>
 
-                <div className="start-chat">
-                    <div className="assistant-chat-body">
-                        {chatMessages.map((chatMessage, key) => (
-                            <Message
-                                key={key}
-                                position={chatMessage.position}
-                                message={chatMessage.message}
-                            />
-                        ))}
+                <div className="chat-body">
+                    <div className="start-chat">
+                        <div className="assistant-chat-body">
+                            {chatMessages.map((chatMessage, key) => (
+                                <Message
+                                    key={key}
+                                    position={chatMessage.position}
+                                    message={chatMessage.message}
+                                />
+                            ))}
+                            <hr className="separator" />
+                        </div>
                     </div>
                     <div className="blanter-msg">
                         <input
@@ -102,7 +111,7 @@ const Chat = () => {
                             className="send_it"
                         >
                             <svg viewBox="0 0 448 448">
-                            <path d="M.213 32L0 181.333 320 224 0 266.667.213 416 448 224z" />
+                                <path d="M.213 32L0 181.333 320 224 0 266.667.213 416 448 224z" />
                             </svg>
                         </a>
                     </div>

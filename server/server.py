@@ -1,3 +1,6 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS # enable cross-origin requests
+
 import os
 from dotenv import load_dotenv
 
@@ -9,6 +12,7 @@ from langchain_anthropic import ChatAnthropic
 from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.memory import MemorySaver # in-memory storage for the state
 
+# CHATBOT
 load_dotenv()
 memory = MemorySaver()
 
@@ -72,21 +76,42 @@ config = {"configurable": {"thread_id": "1"}} # Add thread_id to the state
 graph.invoke(initial_state, config) # Important to include initial state 
 
 def stream_graph_updates(user_input: str):
+    buffer = str()
     for event in graph.stream({"messages": [("user", user_input)]}, config):
         for value in event.values():
-            print("OF bot:", value["messages"][-1].content)
+            message = value["messages"][-1].content
+            print("OF bot:", message)
+            buffer += message + "\n"
+    return buffer
 
-while True:
-    try:
-        user_input = input("User: ")
-        if user_input.lower() in ["goodbye", "bye"]:
-            stream_graph_updates(user_input)
-            break
 
-        stream_graph_updates(user_input)
-    except:
-        # fallback if input() is not available
-        user_input = "I'm bored, entertain me!"
-        print("User: " + user_input)
-        stream_graph_updates(user_input)
+# SERVER
+app = Flask(__name__)
+CORS(app)
 
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
+
+@app.route('/ask_ai', methods=['POST'])
+def ask_ai():
+    data = request.get_json()
+    user_input = data['prompt']
+    response = stream_graph_updates(user_input)
+    return jsonify({ 'result': response })
+
+@app.route('/set_model', methods=['POST'])
+def set_model():
+    data = request.get_json()
+    global llm
+    if data['model'] == 'claude':
+        llm = claude
+        print("Claude model set")
+    elif data['model'] == 'openai':
+        llm = openAI
+        print("OpenAI model set")
+    
+    return jsonify({ 'result': data['model'] })
+
+if __name__ == '__main__':
+    app.run()
